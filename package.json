@@ -1,0 +1,19 @@
+{
+  "name": "github-avatar-downloader",
+  "version": "1.0.0",
+  "description": "CLI tool to pull GitHub avatars",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukehorak/github-avatar-downloader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukehorak/github-avatar-downloader/issues"
+  },
+  "homepage": "https://github.com/lukehorak/github-avatar-downloader#readme"
+}
