@@ -17,7 +17,7 @@ const getRepoContributors = (repoOwner, repoName, cb) => {
     url: `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`,
     headers: {
       'User-Agent': 'request',
-      'authorization': `${secrets.GITHUB_USER}:${secrets.GITHUB_TOKEN}`
+      'authorization': `${process.env.GITHUB_USER}:${process.env.GITHUB_TOKEN}`
     }
   };
 
