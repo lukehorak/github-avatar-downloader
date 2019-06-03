@@ -13,18 +13,24 @@ const getRepoContributors = (repoOwner, repoName, cb) => {
   };
 
   request(options, function(err, res, body){
-    const jsonResults = JSON.parse(body);
-    let resultURLs = [];
-    for (user of jsonResults){
-      resultURLs.push(user.avatar_url)
-    }
-    cb(err, resultURLs);
+    cb(err, body);
   });
 }
 
 console.log("Welcome to the GitHub Avatar Downloader!");
 
 getRepoContributors("jquery", "jquery", function(err, result) {
+  // yeet.js: Making error handling fun!
   if (err) YEET(err);
-  console.log("Result:", result)
+  const jsonResults = JSON.parse(result);
+  let resultURLs = [];
+  try{
+    for (user of jsonResults){
+      resultURLs.push(user.avatar_url)
+    }
+  }
+  catch(e){
+    YEET(e.message);
+  }
+  console.log("Result:", resultURLs)
 })
