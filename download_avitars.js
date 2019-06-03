@@ -1,6 +1,10 @@
 const request = require('request');
 const secrets = require('./secrets');
 const fs = require('fs');
+const dotenv = require('dotenv');
+////////////////////////////////////////////////////////////////////////////////////
+// Function Declarations
+////////////////////////////////////////////////////////////////////////////////////
 
 // Function to download avatars, given url
 const downloadImageByURL = (url, filePath) => {
@@ -29,9 +33,29 @@ const getRepoContributors = (repoOwner, repoName, cb) => {
     });
 }
 
-
+const validateEnvVar = (parsedConfig, varName) => {
+  if(!parsedConfig[varName]){
+    console.log(`${varName} does not exist in configs. Please review your .env file`)
+    //return false;
+    throw new Error('Environment variable missing error');
+  }
+}
+////////////////////////////////////////////////////////////////////////////////////
 // The actual script!
+////////////////////////////////////////////////////////////////////////////////////
+
+// Welcome dialogue
 console.log("Welcome to the GitHub Avatar Downloader!");
+
+// Validation
+dotenvConfig = dotenv.config();
+if (dotenvConfig.error){
+  throw dotenvConfig.error
+}
+
+// Verify environment vars exist/are named properly
+validateEnvVar(dotenvConfig.parsed, "GITHUB_USER");
+validateEnvVar(dotenvConfig.parsed, "GITHUB_TOKEN");
 
 // Get Args/Argument count validation
 const args = process.argv.slice(2);
@@ -39,6 +63,7 @@ if (args.length !== 2) {
   console.log("I need a user and a repo! Please provide these as two command line arguments!");
   process.exit(0)
 }
+
 // Do the thing!
 getRepoContributors(args[0], args[1], function (err, result) {
   // Error Handling
@@ -47,7 +72,8 @@ getRepoContributors(args[0], args[1], function (err, result) {
   const jsonResults = JSON.parse(result);  
   // Empty result handling
   if (jsonResults.message === "Not Found") {
-    console.log("No URLs Found!");
+    //
+    console.log("No URLs Found! (If you were expecting data, we recommend checking the user/repo you provided as arguments)");
     return 0;
   }
   for (user of jsonResults) {
