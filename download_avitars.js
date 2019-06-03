@@ -1,5 +1,4 @@
 const request = require('request');
-const YEET = require('./yeet');
 const secrets = require('./secrets');
 
 
