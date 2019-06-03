@@ -33,16 +33,19 @@ const getRepoContributors = (repoOwner, repoName, cb) => {
 // The actual script!
 console.log("Welcome to the GitHub Avatar Downloader!");
 
+// Get Args/Argument count validation
 const args = process.argv.slice(2);
-
 if (args.length !== 2) {
   console.log("I need a user and a repo! Please provide these as two command line arguments!");
   process.exit(0)
 }
-
+// Do the thing!
 getRepoContributors(args[0], args[1], function (err, result) {
+  // Error Handling
   if (err) throw err;
-  const jsonResults = JSON.parse(result);
+
+  const jsonResults = JSON.parse(result);  
+  // Empty result handling
   if (jsonResults.message === "Not Found") {
     console.log("No URLs Found!");
     return 0;
