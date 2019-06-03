@@ -1,7 +1,7 @@
 const request = require('request');
 const secrets = require('./secrets');
-const YEET = require('./yeet');
 
+//const downloadImageByURL(url, filePath)
 
 const getRepoContributors = (repoOwner, repoName, cb) => {
   const options = {
@@ -20,17 +20,16 @@ const getRepoContributors = (repoOwner, repoName, cb) => {
 console.log("Welcome to the GitHub Avatar Downloader!");
 
 getRepoContributors("jquery", "jquery", function(err, result) {
-  // yeet.js: Making error handling fun!
-  if (err) YEET(err);
   const jsonResults = JSON.parse(result);
-  let resultURLs = [];
-  try{
-    for (user of jsonResults){
-      resultURLs.push(user.avatar_url)
-    }
+  let resultURLs = []
+
+  if (jsonResults.message === "Not Found"){
+    console.log("No URLs Found!");
+    return resultURLs
   }
-  catch(e){
-    YEET(e.message);
+
+  for (user of jsonResults){
+    resultURLs.push(user.avatar_url)
   }
-  console.log("Result:", resultURLs)
+  console.log(resultURLs);
 })
